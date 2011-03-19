@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Rosette.Windows.Controls.ColorPicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:conv="clr-namespace:Rosette.Windows.Converters"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <conv:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+    </UserControl.Resources>
+    <Border x:Name="MainPanel" BorderBrush="Gray" BorderThickness="1" Width="400" Height="270" Margin="0,32,0,0" CornerRadius="10">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Color="#C9B22A" Offset="0" />
+                <GradientStop Color="#ffe59e" Offset="1" />
+            </LinearGradientBrush>
+        </Border.Background>
+        <Border BorderBrush="Gray" BorderThickness="1" Background="White" Margin="5">
+            <Grid>
+                <Canvas x:Name="PaletteCanvas" MouseLeftButtonDown="PaletteCanvas_MouseLeftButtonDown" MouseMove="PaletteCanvas_MouseMove" MouseLeftButtonUp="PaletteCanvas_MouseLeftButtonUp"
+                        Width="256" Height="256" HorizontalAlignment="Left">
+                    <Image x:Name="PaletteImage" Source="{Binding ColorPalette}" />
+                    <Canvas Width="{Binding PaletteCursorWidth}" Height="{Binding PaletteCursorHeight}" Canvas.Left="{Binding PalettePositionLeft}" Canvas.Top="{Binding PalettePositionTop}">
+                        <Ellipse Stroke="Black" StrokeThickness="1" Width="10" Height="10" />
+                        <Ellipse Stroke="White" StrokeThickness="1" Width="8" Height="8" Margin="1,1,0,0" />
+                    </Canvas>
+                </Canvas>
+                <Canvas x:Name="HueCanvas" Margin="256,0,0,0" Width="20" HorizontalAlignment="Left" MouseLeftButtonDown="HueCanvas_MouseLeftButtonDown" MouseLeftButtonUp="HueCanvas_MouseLeftButtonUp" MouseMove="HueCanvas_MouseMove">
+                    <Image Source="pack://application:,,,/Windows/Content/hueBar.png" HorizontalAlignment="Left" Height="256" VerticalAlignment="Top" />
+                    <Canvas Margin="20,-3,0,0" Canvas.Top="{Binding HueChooserTop}">
+                        <Path Fill="Black" Data="M 0 4 L 8 7 L 8 0" />
+                    </Canvas>
+                </Canvas>
+                <Grid HorizontalAlignment="Stretch" Margin="276,0,0,0">
+                    <Border BorderBrush="Silver" BorderThickness="1" Height="202" HorizontalAlignment="Left" Margin="16,13,0,0" VerticalAlignment="Top" Width="76" CornerRadius="10" 
+                            Background="{Binding CurrentColor, Converter={StaticResource ColorToBrushConverter}}" />
+                    <Button Content="OK" Height="23" HorizontalAlignment="Left" Margin="17,221,0,0" VerticalAlignment="Top" Width="75" Command="{Binding OKCommand}" />
+                </Grid>
+            </Grid>
+        </Border>
+    </Border>
+</UserControl>
